@@ -56,3 +56,4 @@ npm run dev
 1. Edit `Callback URI(s)` to include `https://<your-ngrok-domain>.app/account/authorize`
 1. Edit `Javascript origin(s)` to include your public domain `https://<your-ngrok-domain>.app` or keep it blank
 1. Edit `Logout URI` to include your public domain `https://<your-ngrok-domain>.app` or keep it blank
+# holy-tea-amsterdam-store-2024
