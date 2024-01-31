@@ -24,7 +24,7 @@ export async function loader({params, context}: LoaderFunctionArgs) {
   }
 
   const {shop, hero} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
-    variables: {handle: 'freestyle'},
+    variables: {handle: 'black-tea', country, language},
   });
 
   const seo = seoPayload.home();
@@ -50,7 +50,7 @@ export async function loader({params, context}: LoaderFunctionArgs) {
     ),
     secondaryHero: context.storefront.query(COLLECTION_HERO_QUERY, {
       variables: {
-        handle: 'backcountry',
+        handle: 'green-tea',
         country,
         language,
       },

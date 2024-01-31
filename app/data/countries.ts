@@ -2,10 +2,10 @@ import type {Localizations} from '~/lib/type';
 
 export const countries: Localizations = {
   default: {
-    label: 'United States (USD $)',
+    label: 'Netherlands (EUR €)',
     language: 'EN',
-    country: 'US',
-    currency: 'USD',
+    country: 'NL',
+    currency: 'EUR',
   },
   '/en-ad': {
     label: 'Andorra (EUR €)',
