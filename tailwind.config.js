@@ -9,6 +9,10 @@ export default {
       colors: {
         primary: 'rgb(var(--color-primary) / <alpha-value>)',
         contrast: 'rgb(var(--color-contrast) / <alpha-value>)',
+        lilac: 'rgb(var(--color-lilac) / <alpha-value>)',
+        'blue-green': 'rgb(var(--color-blue-green) / <alpha-value>)',
+        'lime-green': 'rgb(var(--color-lime-green) / <alpha-value>)',
+        'burnt-orange': 'rgb(var(--color-burnt-orange) / <alpha-value>)',
         notice: 'rgb(var(--color-accent) / <alpha-value>)',
         shopPay: 'rgb(var(--color-shop-pay) / <alpha-value>)',
       },

@@ -4,8 +4,12 @@
 
 /* Tokens */
 :root {
-  --color-primary: 20 20 20; /* Text, buttons, etc. */
-  --color-contrast: 250 250 249; /* Backgrounds, borders, etc. */
+  --color-primary: 19 3 41; /* #130329 Text, buttons, etc. */
+  --color-contrast: 245 245 220; /* #F5F5DC Backgrounds, borders, etc. */
+  --color-lilac: 189 151 203; /* #BD97CB */
+  --color-blue-green: 7 187 156; /* #07BB9C */
+  --color-lime-green: 118 185 71; /* #76B947 */
+  --color-burnt-orange: 204 85 0; /* #CC5500 */
   --color-accent: 191 72 0; /* Labels like "On sale" */
   --font-size-fine: 0.75rem; /* text-xs */
   --font-size-copy: 1rem; /* text-base */
@@ -63,7 +67,7 @@ shop-pay-button {
   }
 
   body {
-    @apply border-primary/10 bg-contrast text-primary/90 antialiased;
+    @apply border-primary bg-contrast text-primary/90 antialiased;
   }
 
   html {
