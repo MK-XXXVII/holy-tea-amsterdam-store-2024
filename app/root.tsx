@@ -242,7 +242,7 @@ async function getLayoutData({storefront, env}: AppLoadContext) {
   const data = await storefront.query(LAYOUT_QUERY, {
     variables: {
       headerMenuHandle: 'main-menu',
-      footerMenuHandle: 'footer',
+      footerMenuHandle: 'footer-1',
       language: storefront.i18n.language,
     },
   });
