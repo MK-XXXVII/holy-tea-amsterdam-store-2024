@@ -269,7 +269,7 @@ function DesktopHeader({
           : 'bg-lilac/60 text-contrast'
       } ${
         !isHome && y > 50 && ' shadow-lightHeader'
-      } hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8`}
+      } hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-6`}
     >
       <div className="flex gap-12">
         <Link className="font-bold" to="/" prefetch="intent">
