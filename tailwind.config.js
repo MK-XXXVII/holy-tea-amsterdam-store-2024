@@ -4,6 +4,7 @@ import typographyPlugin from '@tailwindcss/typography';
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
