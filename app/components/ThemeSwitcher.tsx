@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BsSunFill, BsMoonStarsFill} from 'react-icons/bs';
 
-const ThemeSwitcher: React.FC = () => {
+const ThemeSwitcher: React.FC<{isHome: boolean}> = ({isHome}) => {
   const [theme, setTheme] = useState('light');
   const [pulse, setPulse] = useState(false);
 
@@ -25,8 +25,8 @@ const ThemeSwitcher: React.FC = () => {
       onKeyDown={toggleTheme}
       role="button"
       tabIndex={0}
-      className={`p-2 ml-2 text-primary rounded-full border border-primary cursor-pointer transition-transform duration-500 ease-in-out ${
-        theme === 'light' ? 'bg-blue-green' : 'bg-lilac'
+      className={`p-2 ml-2 rounded-full border-2 border-primary text-primary cursor-pointer transition-transform duration-500 ease-in-out ${
+        isHome ? 'bg-blue-green dark:bg-lilac' : 'bg-lilac dark:bg-blue-green'
       }`}
     >
       {theme === 'light' ? (

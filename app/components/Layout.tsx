@@ -244,7 +244,7 @@ function MobileHeader({
       <div className="flex items-center justify-end w-full gap-4">
         <AccountLink className="relative flex items-center justify-center w-8 h-8" />
         <CartCount isHome={isHome} openCart={openCart} />
-        <ThemeSwitcher />
+        <ThemeSwitcher isHome={isHome} />
       </div>
     </header>
   );
@@ -321,7 +321,7 @@ function DesktopHeader({
         </Form>
         <AccountLink className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5" />
         <CartCount isHome={isHome} openCart={openCart} />
-        <ThemeSwitcher />
+        <ThemeSwitcher isHome={isHome} />
       </div>
     </header>
   );
@@ -383,9 +383,7 @@ function Badge({
         <IconBag />
         <div
           className={`${
-            dark
-              ? 'text-primary bg-contrast dark:text-contrast dark:bg-primary'
-              : 'text-contrast bg-primary'
+            dark ? 'text-primary bg-burnt-orange' : 'text-contrast bg-primary'
           } absolute bottom-1 right-1 text-[0.625rem] font-medium subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pb-px`}
         >
           <span>{count || 0}</span>
@@ -425,8 +423,9 @@ function Footer({menu}: {menu?: EnhancedMenu}) {
       divider={isHome ? 'none' : 'top'}
       as="footer"
       role="contentinfo"
-      className={`grid min-h-[25rem] items-start grid-flow-row w-full gap-6 py-8 px-6 md:px-8 lg:px-12 md:gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-${itemsCount}
-        bg-primary dark:bg-contrast dark:text-primary text-contrast overflow-hidden`}
+      className={`grid min-h-[25rem] items-start grid-flow-row w-full text-primary gap-6 py-8 px-6 md:px-8 lg:px-12 md:gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-${itemsCount} overflow-hidden ${
+        isHome ? 'bg-lilac dark:bg-blue-green' : 'bg-blue-green dark:bg-lilac'
+      }`}
     >
       <FooterMenu menu={menu} />
       <CountrySelector />
