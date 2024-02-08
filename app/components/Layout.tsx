@@ -33,6 +33,7 @@ import {useCartFetchers} from '~/hooks/useCartFetchers';
 import {useRootLoaderData} from '~/root';
 
 import ThemeSwitcher from './ThemeSwitcher';
+import {LogoIcon} from './LogoIcon';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -263,6 +264,7 @@ function DesktopHeader({
 }) {
   const params = useParams();
   const {y} = useWindowScroll();
+
   return (
     <header
       role="banner"
@@ -271,15 +273,26 @@ function DesktopHeader({
           ? 'bg-lilac/60 dark:bg-blue-green/60 text-primary shadow-darkHeader'
           : 'bg-blue-green/60 text-primary dark:bg-lilac/60 shadow-lightHeader'
       } ${
-        !isHome && y > 50 && ' shadow-lightHeader'
+        !isHome && y > 50 && 'shadow-lightHeader'
       } hidden lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-4`}
     >
-      <div className="flex gap-12">
-        <Link className="font-bold" to="/" prefetch="intent">
-          {title}
+      <div className="flex items-center gap-6">
+        {' '}
+        {/* Ensure alignment of logo, title, and nav */}
+        <Link to="/" prefetch="intent" className="flex items-center font-bold">
+          <LogoIcon
+            size={50}
+            className={`border-2 border-primary rounded-full ${
+              isHome
+                ? 'bg-blue-green dark:bg-lilac'
+                : 'bg-lilac dark:bg-blue-green'
+            }`}
+          />{' '}
+          <span className="ml-2">{title}</span> {/* Title next to logo */}
         </Link>
-        <nav className="flex gap-8">
-          {/* Top level menu items */}
+        <nav className="flex items-center gap-8">
+          {' '}
+          {/* Navigation items aligned with logo and title */}
           {(menu?.items || []).map((item) => (
             <Link
               key={item.id}
