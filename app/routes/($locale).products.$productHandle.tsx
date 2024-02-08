@@ -33,7 +33,8 @@ import {
 } from '~/components';
 import {getExcerpt} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
-import type {Storefront} from '~/lib/type';
+import type {Storefront, RichTextNode} from '~/lib/type';
+import {convertRichTextToHTML} from '~/lib/richTextUtils';
 import {routeHeaders} from '~/data/cache';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 
@@ -135,8 +136,37 @@ function redirectToFirstVariant({
 
 export default function Product() {
   const {product, shop, recommended, variants} = useLoaderData<typeof loader>();
-  const {media, title, vendor, descriptionHtml} = product;
+  const {
+    media,
+    title,
+    vendor,
+    descriptionHtml,
+    metafield,
+    secondMetafield,
+    thirdMetafield,
+  } = product;
   const {shippingPolicy, refundPolicy} = shop;
+
+  const parseAndConvertRichText = (metafieldValue: string) => {
+    try {
+      const richText = JSON.parse(metafieldValue) as RichTextNode; // Asserting the type
+      return convertRichTextToHTML(richText);
+    } catch (error) {
+      console.error('Error parsing metafield value:', error);
+      return ''; // Fallback to an empty string in case of parsing error
+    }
+  };
+
+  // Use the function for each of the metafields
+  const metafieldHtml = metafield
+    ? parseAndConvertRichText(metafield.value)
+    : '';
+  const secondMetafieldHtml = secondMetafield
+    ? parseAndConvertRichText(secondMetafield.value)
+    : '';
+  const thirdMetafieldHtml = thirdMetafield
+    ? parseAndConvertRichText(thirdMetafield.value)
+    : '';
 
   return (
     <>
@@ -173,6 +203,24 @@ export default function Product() {
                   <ProductDetail
                     title="Product Details"
                     content={descriptionHtml}
+                  />
+                )}
+                {metafield && (
+                  <ProductDetail
+                    title="Ingredients"
+                    content={metafieldHtml} // Use the excerpt as content
+                  />
+                )}
+                {secondMetafield && (
+                  <ProductDetail
+                    title="Nutritional Information"
+                    content={secondMetafieldHtml} // Use the excerpt as content
+                  />
+                )}
+                {thirdMetafield && (
+                  <ProductDetail
+                    title="Tea Brewing Guide"
+                    content={thirdMetafieldHtml} // Use the excerpt as content
                   />
                 )}
                 {shippingPolicy?.body && (
@@ -505,6 +553,15 @@ const PRODUCT_QUERY = `#graphql
         nodes {
           ...ProductVariantFragment
         }
+      }
+      metafield(namespace: "custom", key: "ingredients_rich") {
+        value
+      }
+      secondMetafield: metafield(namespace: "custom", key: "nutritional_value") {
+        value
+      }
+      thirdMetafield: metafield(namespace: "custom", key: "guide") {
+        value
       }
       seo {
         description
