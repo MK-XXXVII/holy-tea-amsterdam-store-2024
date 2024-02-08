@@ -66,7 +66,7 @@ export function ProductCard({
               <Image
                 className="object-cover w-full fadeIn"
                 sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
-                aspectRatio="4/5"
+                aspectRatio="1/1"
                 data={image}
                 alt={image.altText || `Picture of ${product.title}`}
                 loading={loading}

@@ -33,6 +33,7 @@ import {useCartFetchers} from '~/hooks/useCartFetchers';
 import {useRootLoaderData} from '~/root';
 
 import ThemeSwitcher from './ThemeSwitcher';
+import {LogoIcon} from './LogoIcon';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -244,7 +245,7 @@ function MobileHeader({
       <div className="flex items-center justify-end w-full gap-4">
         <AccountLink className="relative flex items-center justify-center w-8 h-8" />
         <CartCount isHome={isHome} openCart={openCart} />
-        <ThemeSwitcher />
+        <ThemeSwitcher isHome={isHome} />
       </div>
     </header>
   );
@@ -263,6 +264,7 @@ function DesktopHeader({
 }) {
   const params = useParams();
   const {y} = useWindowScroll();
+
   return (
     <header
       role="banner"
@@ -271,15 +273,26 @@ function DesktopHeader({
           ? 'bg-lilac/60 dark:bg-blue-green/60 text-primary shadow-darkHeader'
           : 'bg-blue-green/60 text-primary dark:bg-lilac/60 shadow-lightHeader'
       } ${
-        !isHome && y > 50 && ' shadow-lightHeader'
+        !isHome && y > 50 && 'shadow-lightHeader'
       } hidden lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-4`}
     >
-      <div className="flex gap-12">
-        <Link className="font-bold" to="/" prefetch="intent">
-          {title}
+      <div className="flex items-center gap-6">
+        {' '}
+        {/* Ensure alignment of logo, title, and nav */}
+        <Link to="/" prefetch="intent" className="flex items-center font-bold">
+          <LogoIcon
+            size={50}
+            className={`border-2 border-primary rounded-full ${
+              isHome
+                ? 'bg-blue-green dark:bg-lilac'
+                : 'bg-lilac dark:bg-blue-green'
+            }`}
+          />{' '}
+          <span className="ml-2">{title}</span> {/* Title next to logo */}
         </Link>
-        <nav className="flex gap-8">
-          {/* Top level menu items */}
+        <nav className="flex items-center gap-8">
+          {' '}
+          {/* Navigation items aligned with logo and title */}
           {(menu?.items || []).map((item) => (
             <Link
               key={item.id}
@@ -321,7 +334,7 @@ function DesktopHeader({
         </Form>
         <AccountLink className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5" />
         <CartCount isHome={isHome} openCart={openCart} />
-        <ThemeSwitcher />
+        <ThemeSwitcher isHome={isHome} />
       </div>
     </header>
   );
@@ -383,9 +396,7 @@ function Badge({
         <IconBag />
         <div
           className={`${
-            dark
-              ? 'text-primary bg-contrast dark:text-contrast dark:bg-primary'
-              : 'text-contrast bg-primary'
+            dark ? 'text-primary bg-burnt-orange' : 'text-contrast bg-primary'
           } absolute bottom-1 right-1 text-[0.625rem] font-medium subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pb-px`}
         >
           <span>{count || 0}</span>
@@ -425,8 +436,9 @@ function Footer({menu}: {menu?: EnhancedMenu}) {
       divider={isHome ? 'none' : 'top'}
       as="footer"
       role="contentinfo"
-      className={`grid min-h-[25rem] items-start grid-flow-row w-full gap-6 py-8 px-6 md:px-8 lg:px-12 md:gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-${itemsCount}
-        bg-primary dark:bg-contrast dark:text-primary text-contrast overflow-hidden`}
+      className={`grid min-h-[25rem] items-start grid-flow-row w-full text-primary gap-6 py-8 px-6 md:px-8 lg:px-12 md:gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-${itemsCount} overflow-hidden ${
+        isHome ? 'bg-lilac dark:bg-blue-green' : 'bg-blue-green dark:bg-lilac'
+      }`}
     >
       <FooterMenu menu={menu} />
       <CountrySelector />
