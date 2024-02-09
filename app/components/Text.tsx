@@ -24,7 +24,7 @@ export function Text({
   const colors: Record<string, string> = {
     default: 'inherit',
     primary: 'text-primary/90',
-    subtle: 'text-primary/50',
+    subtle: 'text-primary/50 dark:text-contrast/80',
     notice: 'text-notice',
     contrast: 'text-contrast/90',
   };

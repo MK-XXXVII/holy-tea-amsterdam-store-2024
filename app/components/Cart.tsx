@@ -16,15 +16,9 @@ import type {
   CartLine,
   CartLineUpdateInput,
 } from '@shopify/hydrogen/storefront-api-types';
+import {TbTrashX} from 'react-icons/tb';
 
-import {
-  Button,
-  Heading,
-  IconRemove,
-  Text,
-  Link,
-  FeaturedProducts,
-} from '~/components';
+import {Button, Heading, Text, Link, FeaturedProducts} from '~/components';
 import {getInputStyleClasses} from '~/lib/utils';
 
 type Layouts = 'page' | 'drawer';
@@ -99,7 +93,7 @@ function CartDiscounts({
           <div className="flex items-center justify-between">
             <UpdateDiscountForm>
               <button>
-                <IconRemove
+                <TbTrashX
                   aria-hidden="true"
                   style={{height: 18, marginRight: 4}}
                 />
@@ -254,7 +248,7 @@ function CartLineItem({line}: {line: CartLine}) {
   return (
     <li
       key={id}
-      className="flex gap-4"
+      className="flex gap-4 mt-6"
       style={{
         // Hide the line item if the optimistic data action is remove
         // Do not remove the form from the DOM
@@ -318,11 +312,11 @@ function ItemRemoveButton({lineId}: {lineId: CartLine['id']}) {
       }}
     >
       <button
-        className="flex items-center justify-center w-10 h-10 border rounded"
+        className="flex items-center justify-center w-10 h-10 bg-fuchsia dark:bg-dark-fuchsia border border-primary dark:border-contrast rounded"
         type="submit"
       >
         <span className="sr-only">Remove</span>
-        <IconRemove aria-hidden="true" />
+        <TbTrashX className="h-6 w-6" aria-hidden="true" />
       </button>
       <OptimisticInput id={lineId} data={{action: 'remove'}} />
     </CartForm>
@@ -346,12 +340,12 @@ function CartLineQuantityAdjust({line}: {line: CartLine}) {
       <label htmlFor={`quantity-${lineId}`} className="sr-only">
         Quantity, {optimisticQuantity}
       </label>
-      <div className="flex items-center border rounded">
+      <div className="flex items-center border border-primary dark:border-contrast pb-0.5 bg-blue-green/50 dark:bg-blue-iris rounded">
         <UpdateCartButton lines={[{id: lineId, quantity: prevQuantity}]}>
           <button
             name="decrease-quantity"
             aria-label="Decrease quantity"
-            className="w-10 h-10 transition text-primary/50 hover:text-primary disabled:text-primary/10"
+            className="w-10 h-10 transition text-primary dark:text-contrast text-lead disabled:text-primary/10"
             value={prevQuantity}
             disabled={optimisticQuantity <= 1}
           >
@@ -363,13 +357,16 @@ function CartLineQuantityAdjust({line}: {line: CartLine}) {
           </button>
         </UpdateCartButton>
 
-        <div className="px-2 text-center" data-test="item-quantity">
+        <div
+          className="text-center px-2 items-center"
+          data-test="item-quantity"
+        >
           {optimisticQuantity}
         </div>
 
         <UpdateCartButton lines={[{id: lineId, quantity: nextQuantity}]}>
           <button
-            className="w-10 h-10 transition text-primary/50 hover:text-primary"
+            className="w-10 h-10 transition text-primary dark:text-contrast text-lead"
             name="increase-quantity"
             value={nextQuantity}
             aria-label="Increase quantity"
@@ -443,7 +440,7 @@ export function CartEmpty({
 
   const container = {
     drawer: clsx([
-      'content-start gap-4 px-6 pb-8 transition overflow-y-scroll md:gap-12 md:px-12 h-screen-no-nav md:pb-12',
+      'content-start gap-4 px-6 pb-4 pt-8 transition overflow-y-scroll md:gap-12 md:px-12 h-screen-no-nav md:pb-12',
       y > 0 ? 'border-t' : '',
     ]),
     page: clsx([
@@ -463,7 +460,7 @@ export function CartEmpty({
           <Button onClick={onClose}>Continue shopping</Button>
         </div>
       </section>
-      <section className="grid gap-8 pt-16">
+      <section className="grid gap-4 pt-10">
         <FeaturedProducts
           count={4}
           heading="Shop Best Sellers"

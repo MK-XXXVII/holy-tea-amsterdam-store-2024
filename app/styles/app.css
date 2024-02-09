@@ -7,7 +7,10 @@
   --color-primary: 19 3 41; /* #130329 Text, buttons, etc. */
   --color-contrast: 245 245 220; /* #F5F5DC Backgrounds, borders, etc. */
   --color-lilac: 189 151 203; /* #BD97CB */
+  --color-blue-iris: 112 58 207; /* #703ACF */
   --color-blue-green: 7 187 156; /* #07BB9C */
+  --color-fuchsia: 242 78 112; /* #F24E70 */
+  --color-dark-fuchsia: 95 9 61; /* #5F093D */
   --color-lime-green: 118 185 71; /* #76B947 */
   --color-burnt-orange: 204 85 0; /* #CC5500 */
   --color-accent: 191 72 0; /* Labels like "On sale" */
