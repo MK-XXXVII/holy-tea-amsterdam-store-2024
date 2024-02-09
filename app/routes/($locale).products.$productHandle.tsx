@@ -12,6 +12,7 @@ import {
 } from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
 import clsx from 'clsx';
+import {IoIosArrowRoundDown} from 'react-icons/io';
 
 import type {
   ProductQuery,
@@ -21,7 +22,6 @@ import {
   Heading,
   IconCaret,
   IconCheck,
-  IconClose,
   ProductGallery,
   ProductSwimlane,
   Section,
@@ -33,7 +33,8 @@ import {
 } from '~/components';
 import {getExcerpt} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
-import type {Storefront} from '~/lib/type';
+import type {Storefront, RichTextNode} from '~/lib/type';
+import {convertRichTextToHTML} from '~/lib/richTextUtils';
 import {routeHeaders} from '~/data/cache';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 
@@ -135,8 +136,37 @@ function redirectToFirstVariant({
 
 export default function Product() {
   const {product, shop, recommended, variants} = useLoaderData<typeof loader>();
-  const {media, title, vendor, descriptionHtml} = product;
+  const {
+    media,
+    title,
+    vendor,
+    descriptionHtml,
+    metafield,
+    secondMetafield,
+    thirdMetafield,
+  } = product;
   const {shippingPolicy, refundPolicy} = shop;
+
+  const parseAndConvertRichText = (metafieldValue: string) => {
+    try {
+      const richText = JSON.parse(metafieldValue) as RichTextNode; // Asserting the type
+      return convertRichTextToHTML(richText);
+    } catch (error) {
+      console.error('Error parsing metafield value:', error);
+      return ''; // Fallback to an empty string in case of parsing error
+    }
+  };
+
+  // Use the function for each of the metafields
+  const metafieldHtml = metafield
+    ? parseAndConvertRichText(metafield.value)
+    : '';
+  const secondMetafieldHtml = secondMetafield
+    ? parseAndConvertRichText(secondMetafield.value)
+    : '';
+  const thirdMetafieldHtml = thirdMetafield
+    ? parseAndConvertRichText(thirdMetafield.value)
+    : '';
 
   return (
     <>
@@ -173,6 +203,24 @@ export default function Product() {
                   <ProductDetail
                     title="Product Details"
                     content={descriptionHtml}
+                  />
+                )}
+                {metafield && (
+                  <ProductDetail
+                    title="Ingredients"
+                    content={metafieldHtml} // Use the excerpt as content
+                  />
+                )}
+                {secondMetafield && (
+                  <ProductDetail
+                    title="Nutritional Information"
+                    content={secondMetafieldHtml} // Use the excerpt as content
+                  />
+                )}
+                {thirdMetafield && (
+                  <ProductDetail
+                    title="Tea Brewing Guide"
+                    content={thirdMetafieldHtml} // Use the excerpt as content
                   />
                 )}
                 {shippingPolicy?.body && (
@@ -400,32 +448,50 @@ function ProductDetail({
   learnMore?: string;
 }) {
   return (
-    <Disclosure key={title} as="div" className="grid w-full gap-2">
+    <Disclosure
+      key={title}
+      as="div"
+      className="
+      grid w-full gap-2 border-2 border-primary dark:border-contrast
+      bg-blue-green dark:bg-lilac text-primary p-3 rounded-md 
+      transition-shadow duration-200 hover:shadow-sm focus-within:shadow-sm 
+      focus-within:border-primary/80 focus-within:outline-none 
+      focus-within:ring-2 focus-within:ring-lilac/80 dark:focus-within:ring-blue-green/80
+      focus-within:ring-offset-2 focus-within:ring-offset-lilac/60 dark:focus-within:ring-offset-blue-green/60"
+    >
       {({open}) => (
         <>
           <Disclosure.Button className="text-left">
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <Text size="lead" as="h4">
                 {title}
               </Text>
-              <IconClose
+              <IoIosArrowRoundDown
                 className={clsx(
-                  'transition-transform transform-gpu duration-200',
-                  !open && 'rotate-[45deg]',
+                  'transition-transform transform-gpu duration-200 h-8 w-8',
+                  open ? 'rotate-180' : 'rotate-0',
                 )}
               />
             </div>
           </Disclosure.Button>
 
-          <Disclosure.Panel className={'pb-4 pt-2 grid gap-2'}>
+          <Disclosure.Panel
+            className={
+              'pb-4 pt-2 grid gap-2 transition-all duration-500 ease-in-out'
+            }
+            style={{
+              maxHeight: open ? '1000px' : '0', // Adjust '1000px' based on your content's max height
+              overflow: 'hidden',
+            }}
+          >
             <div
-              className="prose dark:prose-invert"
+              className="prose text-primary"
               dangerouslySetInnerHTML={{__html: content}}
             />
             {learnMore && (
               <div className="">
                 <Link
-                  className="pb-px border-b border-primary/30 text-primary/50"
+                  className="pb-px border-b border-primary/30 text-primary"
                   to={learnMore}
                 >
                   Learn more
@@ -505,6 +571,15 @@ const PRODUCT_QUERY = `#graphql
         nodes {
           ...ProductVariantFragment
         }
+      }
+      metafield(namespace: "custom", key: "ingredients_rich") {
+        value
+      }
+      secondMetafield: metafield(namespace: "custom", key: "nutritionalvaluerichtext") {
+        value
+      }
+      thirdMetafield: metafield(namespace: "custom", key: "guiderichtext") {
+        value
       }
       seo {
         description

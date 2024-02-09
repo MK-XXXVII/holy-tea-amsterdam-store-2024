@@ -3,6 +3,9 @@ import {useWindowScroll} from 'react-use';
 import {Disclosure} from '@headlessui/react';
 import {Suspense, useEffect, useMemo} from 'react';
 import {CartForm} from '@shopify/hydrogen';
+import {BsBagHeart, BsSearchHeartFill} from 'react-icons/bs';
+import {RiUserHeartLine} from 'react-icons/ri';
+import {GrUserExpert} from 'react-icons/gr';
 
 import {type LayoutQuery} from 'storefrontapi.generated';
 import {
@@ -10,10 +13,6 @@ import {
   useDrawer,
   Text,
   Input,
-  IconLogin,
-  IconAccount,
-  IconBag,
-  IconSearch,
   Heading,
   IconMenu,
   IconCaret,
@@ -214,12 +213,12 @@ function MobileHeader({
             type="submit"
             className="relative flex items-center justify-center w-8 h-8"
           >
-            <IconSearch />
+            <BsSearchHeartFill className="w-8 h-8" />
           </button>
           <Input
             className={
               isHome
-                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
+                ? 'focus:border-contrast dark:focus:border-primary/20'
                 : 'focus:border-primary/20'
             }
             type="search"
@@ -242,7 +241,7 @@ function MobileHeader({
         </Heading>
       </Link>
 
-      <div className="flex items-center justify-end w-full gap-4">
+      <div className="flex items-center justify-end w-full gap-2">
         <AccountLink className="relative flex items-center justify-center w-8 h-8" />
         <CartCount isHome={isHome} openCart={openCart} />
         <ThemeSwitcher isHome={isHome} />
@@ -290,7 +289,7 @@ function DesktopHeader({
           />{' '}
           <span className="ml-2">{title}</span> {/* Title next to logo */}
         </Link>
-        <nav className="flex items-center gap-8">
+        <nav className="flex items-center gap-5">
           {' '}
           {/* Navigation items aligned with logo and title */}
           {(menu?.items || []).map((item) => (
@@ -308,7 +307,7 @@ function DesktopHeader({
           ))}
         </nav>
       </div>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-3">
         <Form
           method="get"
           action={params.locale ? `/${params.locale}/search` : '/search'}
@@ -329,7 +328,7 @@ function DesktopHeader({
             type="submit"
             className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
           >
-            <IconSearch />
+            <BsSearchHeartFill className="w-8 h-8" />
           </button>
         </Form>
         <AccountLink className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5" />
@@ -346,9 +345,15 @@ function AccountLink({className}: {className?: string}) {
 
   return (
     <Link to="/account" className={className}>
-      <Suspense fallback={<IconLogin />}>
-        <Await resolve={isLoggedIn} errorElement={<IconLogin />}>
-          {(isLoggedIn) => (isLoggedIn ? <IconAccount /> : <IconLogin />)}
+      <Suspense fallback={<RiUserHeartLine />}>
+        <Await resolve={isLoggedIn} errorElement={<RiUserHeartLine />}>
+          {(isLoggedIn) =>
+            isLoggedIn ? (
+              <GrUserExpert className="w-8 h-8" />
+            ) : (
+              <RiUserHeartLine className="w-8 h-8" />
+            )
+          }
         </Await>
       </Suspense>
     </Link>
@@ -393,11 +398,11 @@ function Badge({
   const BadgeCounter = useMemo(
     () => (
       <>
-        <IconBag />
+        <BsBagHeart className="w-10 h-10" />
         <div
           className={`${
             dark ? 'text-primary bg-burnt-orange' : 'text-contrast bg-primary'
-          } absolute bottom-1 right-1 text-[0.625rem] font-medium subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pb-px`}
+          } absolute -bottom-1 -right-1 text-[0.625rem] font-medium subpixel-antialiased h-4 w-4 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full px-[0.125rem] pb-px`}
         >
           <span>{count || 0}</span>
         </div>
