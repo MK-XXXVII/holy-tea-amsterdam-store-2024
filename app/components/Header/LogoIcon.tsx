@@ -1,5 +1,3 @@
-import React from 'react';
-
 type LogoIconProps = JSX.IntrinsicElements['img'] & {
   size?: number | string; // You can define size as a number for pixels or a string for other units
 };

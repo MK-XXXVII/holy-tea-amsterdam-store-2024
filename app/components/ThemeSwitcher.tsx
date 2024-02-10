@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BsSunFill, BsMoonStarsFill} from 'react-icons/bs';
 
-const ThemeSwitcher: React.FC<{isHome: boolean}> = ({isHome}) => {
+export const ThemeSwitcher: React.FC<{isHome: boolean}> = ({isHome}) => {
   const [theme, setTheme] = useState('light');
   const [pulse, setPulse] = useState(false);
 
@@ -39,5 +39,3 @@ const ThemeSwitcher: React.FC<{isHome: boolean}> = ({isHome}) => {
     </div>
   );
 };
-
-export default ThemeSwitcher;

@@ -33,8 +33,8 @@ export function Hero({
     <Link to={`/collections/${handle}`}>
       <section
         className={clsx(
-          'relative justify-end flex flex-col w-full',
-          top && '-mt-nav',
+          'relative justify-end flex flex-col w-full max-h-[40em] max-w-full md:max-w-[120em] mx-auto overflow-hidden',
+          top && '',
           height === 'full'
             ? 'h-screen'
             : 'aspect-[4/5] sm:aspect-square md:aspect-[5/4] lg:aspect-[3/2] xl:aspect-[2/1]',
