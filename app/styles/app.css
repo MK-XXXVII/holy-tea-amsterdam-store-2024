@@ -103,6 +103,11 @@ shop-pay-button {
 }
 
 @layer components {
+  .bg-gradient {
+    @apply bg-primary bg-gradient-to-r from-primary dark:from-blue-green via-blue-iris dark:via-lilac to-primary dark:to-blue-green animate-gradient transition-transform;
+    animation-duration: 6s;
+    animation-timing-function: ease-in-out;
+  }
   .article {
     h2,
     h3,
@@ -133,6 +138,16 @@ shop-pay-button {
   .swimlane {
     @apply grid w-full snap-x snap-mandatory scroll-px-6 grid-flow-col justify-start gap-4 overflow-x-scroll px-6 pb-4;
   }
+}
+
+@keyframes gradient {
+  0% {background-position: 0%;}
+  100% {background-position: 100%;}
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
 }
 
 @layer utilities {
