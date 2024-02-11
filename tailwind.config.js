@@ -68,5 +68,5 @@ export default {
       },
     },
   },
-  plugins: [formsPlugin, typographyPlugin],
+  plugins: [require('flowbite/plugin'), formsPlugin, typographyPlugin],
 };

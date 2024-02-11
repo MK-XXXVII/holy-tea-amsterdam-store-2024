@@ -3,6 +3,7 @@
         "accountapi",
         "Dansk",
         "Deutsch",
+        "flowbite",
         "guiderichtext",
         "headlessui",
         "metafield",
@@ -15,6 +16,7 @@
         "nutritionalvaluerichtext",
         "Palatino",
         "Revalidator",
+        "sira",
         "storefrontapi",
         "tailwindcss"
     ]
