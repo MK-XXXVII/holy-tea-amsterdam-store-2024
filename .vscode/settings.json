@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "accountapi",
+        "codegen",
         "Coverflow",
         "Dansk",
         "Deutsch",
@@ -21,6 +22,7 @@
         "sira",
         "storefrontapi",
         "swiper",
-        "tailwindcss"
+        "tailwindcss",
+        "typecheck"
     ]
 }
