@@ -1,11 +1,14 @@
 {
     "cSpell.words": [
         "accountapi",
+        "codegen",
+        "Coverflow",
         "Dansk",
         "Deutsch",
         "flowbite",
         "guiderichtext",
         "headlessui",
+        "isbot",
         "metafield",
         "metafields",
         "minisearch",
@@ -18,6 +21,10 @@
         "Revalidator",
         "sira",
         "storefrontapi",
-        "tailwindcss"
+        "stylesslick",
+        "stylesslicktheme",
+        "swiper",
+        "tailwindcss",
+        "typecheck"
     ]
 }

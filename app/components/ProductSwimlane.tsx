@@ -1,5 +1,9 @@
+import React from 'react';
+import Slider from 'react-slick';
+import {FaArrowRight, FaArrowLeft} from 'react-icons/fa';
+
 import type {HomepageFeaturedProductsQuery} from 'storefrontapi.generated';
-import {ProductCard, Section} from '~/components';
+import {ProductCard} from '~/components';
 
 const mockProducts = {
   nodes: new Array(12).fill(''),
@@ -13,20 +17,74 @@ type ProductSwimlaneProps = HomepageFeaturedProductsQuery & {
 export function ProductSwimlane({
   title = 'Featured Products',
   products = mockProducts,
-  count = 12,
-  ...props
+  count = 20,
 }: ProductSwimlaneProps) {
+  const sliderRef = React.useRef<Slider>(null);
+
+  const settings = {
+    className: 'center',
+    centerMode: true,
+    infinite: true,
+    centerPadding: '40px',
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    speed: 500,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow: 5,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 4,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          initialSlide: 1,
+        },
+      },
+    ],
+  };
+
   return (
-    <Section heading={title} padding="y" {...props}>
-      <div className="swimlane hiddenScroll md:pb-8 md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12">
+    <div className="slider-container px-8 py-12">
+      <Slider ref={sliderRef} {...settings}>
         {products.nodes.map((product) => (
-          <ProductCard
-            product={product}
-            key={product.id}
-            className="snap-start w-80"
-          />
+          <div key={`slide-${product.id}`} className="flex-nowrap px-2">
+            <ProductCard product={product} key={product.id} />
+          </div>
         ))}
+      </Slider>
+      <div className="flex justify-center border-4 bg-lilac border-primary rounded-full p-2 mt-12 space-x-12">
+        <button
+          className="prevArrow border-2 border-primary bg-contrast rounded-full p-2 text-primary text-heading"
+          onClick={() => sliderRef.current?.slickPrev()}
+        >
+          <FaArrowLeft />
+        </button>
+        <button
+          className="prevArrow border-2 border-primary bg-contrast rounded-full p-2 text-primary text-heading"
+          onClick={() => sliderRef.current?.slickNext()}
+        >
+          <FaArrowRight />
+        </button>
       </div>
-    </Section>
+    </div>
   );
 }
