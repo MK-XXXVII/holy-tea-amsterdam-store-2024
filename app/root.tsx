@@ -20,6 +20,8 @@ import {
 } from '@remix-run/react';
 import {ShopifySalesChannel, Seo, useNonce} from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
+import stylesslick from 'slick-carousel/slick/slick.css';
+import stylesslicktheme from 'slick-carousel/slick/slick-theme.css';
 
 import {Layout} from '~/components';
 import {seoPayload} from '~/lib/seo.server';
@@ -54,6 +56,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 export const links: LinksFunction = () => {
   return [
     {rel: 'stylesheet', href: styles},
+    {rel: 'stylesheet', href: stylesslick},
+    {rel: 'stylesheet', href: stylesslicktheme},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
