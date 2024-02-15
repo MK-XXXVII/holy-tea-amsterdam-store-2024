@@ -39,6 +39,7 @@ export function MobileHeader({
         <button
           onClick={openMenu}
           className="relative flex items-center justify-center w-8 h-8"
+          aria-label="Open Menu"
         >
           <IconMenu />
         </button>
@@ -50,10 +51,15 @@ export function MobileHeader({
           <button
             type="submit"
             className="relative flex items-center justify-center w-8 h-8"
+            aria-label="Submit Search"
           >
             <BsSearchHeartFill className="w-8 h-8" />
           </button>
+          <label htmlFor="searchInput" className="sr-only">
+            Search
+          </label>{' '}
           <Input
+            id="searchInput"
             className={
               isHome
                 ? 'focus:border-contrast dark:focus:border-primary/20'

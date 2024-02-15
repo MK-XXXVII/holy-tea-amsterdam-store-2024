@@ -75,12 +75,14 @@ export function ProductSwimlane({
         <button
           className="prevArrow border-2 border-primary bg-contrast rounded-full p-2 text-primary text-heading"
           onClick={() => sliderRef.current?.slickPrev()}
+          aria-label="Previous Product"
         >
           <FaArrowLeft />
         </button>
         <button
           className="prevArrow border-2 border-primary bg-contrast rounded-full p-2 text-primary text-heading"
           onClick={() => sliderRef.current?.slickNext()}
+          aria-label="Next Product"
         >
           <FaArrowRight />
         </button>
