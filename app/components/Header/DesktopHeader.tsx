@@ -75,7 +75,11 @@ export function DesktopHeader({
           action={params.locale ? `/${params.locale}/search` : '/search'}
           className="flex items-center gap-2"
         >
+          <label htmlFor="searchInput" className="sr-only">
+            Search
+          </label>{' '}
           <Input
+            id="searchInput"
             className={
               isHome
                 ? 'focus:border-contrast/20 dark:focus:border-primary/20'
@@ -89,6 +93,7 @@ export function DesktopHeader({
           <button
             type="submit"
             className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
+            aria-label="Submit Search"
           >
             <BsSearchHeartFill className="w-8 h-8" />
           </button>
