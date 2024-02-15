@@ -104,7 +104,9 @@ export function Hero({
                 w-full bg-primary text-contrast hover:text-contrast border-4 
                 border-contrast hover:bg-blue-green focus:ring-4 focus:outline-none 
                 focus:ring-blue-green rounded-full px-8 py-6 text-center mb-2 
-                dark:text-contrast dark:hover:bg-blue-green dark:focus:ring-lilac"
+                dark:text-contrast dark:hover:bg-blue-green dark:focus:ring-lilac
+                transition-colors duration-200"
+                aria-label="{cta.value}"
               >
                 <Text size="lead">{cta.value}</Text>
               </button>

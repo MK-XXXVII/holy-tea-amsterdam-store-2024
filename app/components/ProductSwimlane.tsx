@@ -71,16 +71,26 @@ export function ProductSwimlane({
           </div>
         ))}
       </Slider>
-      <div className="flex justify-center border-4 bg-lilac border-primary rounded-full p-2 mt-12 space-x-12">
+      <div
+        className="
+      flex justify-center border-4 dark:border-contrast bg-gradient dark:bg-blue-green
+      border-primary rounded-full p-2 mt-12 space-x-12"
+      >
         <button
-          className="prevArrow border-2 border-primary bg-contrast rounded-full p-2 text-primary text-heading"
+          className="
+          border-2 border-primary dark:border-contrast bg-contrast dark:bg-primary 
+          rounded-full p-2 text-primary dark:text-contrast text-heading"
           onClick={() => sliderRef.current?.slickPrev()}
+          aria-label="Previous Product"
         >
           <FaArrowLeft />
         </button>
         <button
-          className="prevArrow border-2 border-primary bg-contrast rounded-full p-2 text-primary text-heading"
+          className="
+          border-2 border-primary dark:border-contrast bg-contrast dark:bg-primary 
+          rounded-full p-2 text-primary dark:text-contrast text-heading"
           onClick={() => sliderRef.current?.slickNext()}
+          aria-label="Next Product"
         >
           <FaArrowRight />
         </button>
