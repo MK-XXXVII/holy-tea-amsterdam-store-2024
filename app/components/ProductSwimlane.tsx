@@ -5,20 +5,12 @@ import {FaArrowRight, FaArrowLeft} from 'react-icons/fa';
 import type {HomepageFeaturedProductsQuery} from 'storefrontapi.generated';
 import {ProductCard} from '~/components';
 
-const mockProducts = {
-  nodes: new Array(12).fill(''),
-};
-
 type ProductSwimlaneProps = HomepageFeaturedProductsQuery & {
   title?: string;
   count?: number;
 };
 
-export function ProductSwimlane({
-  title = 'Featured Products',
-  products = mockProducts,
-  count = 20,
-}: ProductSwimlaneProps) {
+export function ProductSwimlane({collectionByHandle}: ProductSwimlaneProps) {
   const sliderRef = React.useRef<Slider>(null);
 
   const settings = {
@@ -65,7 +57,7 @@ export function ProductSwimlane({
   return (
     <div className="slider-container px-8 py-12">
       <Slider ref={sliderRef} {...settings}>
-        {products.nodes.map((product) => (
+        {collectionByHandle?.products?.nodes.map((product) => (
           <div key={`slide-${product.id}`} className="flex-nowrap px-2">
             <ProductCard product={product} key={product.id} />
           </div>

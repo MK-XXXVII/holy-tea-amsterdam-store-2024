@@ -38,6 +38,7 @@ export async function loader({params, context}: LoaderFunctionArgs) {
       HOMEPAGE_FEATURED_PRODUCTS_QUERY,
       {
         variables: {
+          handle: 'bundles',
           /**
            * Country and language properties are automatically injected
            * into all queries. Passing them is unnecessary unless you
@@ -74,13 +75,12 @@ export default function Homepage() {
       {featuredProducts && (
         <Suspense>
           <Await resolve={featuredProducts}>
-            {({products}) => {
-              if (!products?.nodes) return <></>;
+            {({collectionByHandle}) => {
+              if (!collectionByHandle?.products?.nodes) return <></>;
               return (
                 <ProductSwimlane
-                  products={products}
+                  collectionByHandle={collectionByHandle}
                   title="Featured Products"
-                  count={4}
                 />
               );
             }}
@@ -162,11 +162,13 @@ const COLLECTION_HERO_QUERY = `#graphql
 
 // @see: https://shopify.dev/api/storefront/current/queries/products
 export const HOMEPAGE_FEATURED_PRODUCTS_QUERY = `#graphql
-  query homepageFeaturedProducts($country: CountryCode, $language: LanguageCode)
+  query homepageFeaturedProducts($handle: String!, $country: CountryCode, $language: LanguageCode)
   @inContext(country: $country, language: $language) {
-    products(first: 8) {
-      nodes {
-        ...ProductCard
+    collectionByHandle(handle: $handle) {
+      products(first: 8) {
+        nodes {
+          ...ProductCard
+        }
       }
     }
   }
