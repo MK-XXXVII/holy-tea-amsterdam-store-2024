@@ -30,7 +30,7 @@ export function Text({
   };
 
   const sizes: Record<string, string> = {
-    lead: 'text-lead font-medium',
+    lead: 'text-lead font-light',
     copy: 'text-copy',
     fine: 'text-fine subpixel-antialiased',
   };

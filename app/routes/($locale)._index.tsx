@@ -76,18 +76,23 @@ export default function Homepage() {
         <Suspense>
           <Await resolve={featuredProducts}>
             {({collectionByHandle}) => {
-              if (!collectionByHandle?.products?.nodes) return <></>;
+              if (!collectionByHandle?.products?.nodes) return null;
+
+              // Access the title and tagline from the collectionByHandle
+              const {featuredProductsTitle, featuredProductsTagline} =
+                collectionByHandle;
+
               return (
                 <ProductSwimlane
                   collectionByHandle={collectionByHandle}
-                  title="Featured Products"
+                  title={featuredProductsTitle?.value} // Use the title
+                  tagline={featuredProductsTagline?.value} // Use the tagline
                 />
               );
             }}
           </Await>
         </Suspense>
       )}
-
       {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
@@ -165,6 +170,20 @@ export const HOMEPAGE_FEATURED_PRODUCTS_QUERY = `#graphql
   query homepageFeaturedProducts($handle: String!, $country: CountryCode, $language: LanguageCode)
   @inContext(country: $country, language: $language) {
     collectionByHandle(handle: $handle) {
+      id
+      title
+      featuredProductsTitle: metafield(namespace: "custom", key: "featured_products_title") {
+        value
+      }
+      featuredProductsTagline: metafield(namespace: "custom", key: "featured_products_tagline") {
+        value
+      }
+      ingredientsRich: metafield(namespace: "custom", key: "ingredients_rich") {
+        value
+      }
+      brewingInstructions: metafield(namespace: "custom", key: "brewing_instructions") {
+        value
+      }
       products(first: 8) {
         nodes {
           ...ProductCard

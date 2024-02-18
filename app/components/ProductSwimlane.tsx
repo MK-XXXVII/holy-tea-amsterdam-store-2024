@@ -1,17 +1,25 @@
 import React from 'react';
 import Slider from 'react-slick';
+import {useSpring, animated} from 'react-spring';
 import {FaArrowRight, FaArrowLeft} from 'react-icons/fa';
 
 import type {HomepageFeaturedProductsQuery} from 'storefrontapi.generated';
-import {ProductCard} from '~/components';
+import {ProductCard, Heading, Text} from '~/components';
 
 type ProductSwimlaneProps = HomepageFeaturedProductsQuery & {
   title?: string;
+  tagline?: string;
   count?: number;
 };
 
-export function ProductSwimlane({collectionByHandle}: ProductSwimlaneProps) {
+export function ProductSwimlane({
+  collectionByHandle,
+  title,
+  tagline,
+}: ProductSwimlaneProps) {
   const sliderRef = React.useRef<Slider>(null);
+  const [prevProps, setPrev] = useSpring(() => ({scale: 1}));
+  const [nextProps, setNext] = useSpring(() => ({scale: 1}));
 
   const settings = {
     className: 'center',
@@ -22,70 +30,105 @@ export function ProductSwimlane({collectionByHandle}: ProductSwimlaneProps) {
     slidesToScroll: 1,
     speed: 500,
     arrows: false,
+    swipeToSlide: true, // Enable this to make the slides draggable
+    draggable: true, // Enable this to allow swiping to slide
     responsive: [
       {
-        breakpoint: 1440,
+        breakpoint: 1536, // tailwindcss default 2xl breakpoint
         settings: {
           slidesToShow: 5,
           infinite: true,
         },
       },
       {
-        breakpoint: 1280,
+        breakpoint: 1280, // tailwindcss default xl breakpoint
         settings: {
           slidesToShow: 4,
           infinite: true,
         },
       },
       {
-        breakpoint: 1024,
+        breakpoint: 1024, // tailwindcss default lg breakpoint
         settings: {
           slidesToShow: 3,
           infinite: true,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768, // tailwindcss default md breakpoint
+        settings: {
+          slidesToShow: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 640, // tailwindcss default sm breakpoint
         settings: {
           slidesToShow: 1,
-          initialSlide: 1,
+          infinite: true,
         },
       },
     ],
   };
 
   return (
-    <div className="slider-container px-8 py-12">
-      <Slider ref={sliderRef} {...settings}>
+    <div className="slider-container py-8 gap-12">
+      <div className="max-w-5xl">
+        {title && (
+          <Heading size="display" className="pb-4">
+            {title}
+          </Heading>
+        )}
+        {tagline && (
+          <Text size="lead" className="font-light">
+            {tagline}
+          </Text>
+        )}{' '}
+      </div>
+      <Slider ref={sliderRef} {...settings} className="top-8">
         {collectionByHandle?.products?.nodes.map((product) => (
-          <div key={`slide-${product.id}`} className="flex-nowrap px-2">
-            <ProductCard product={product} key={product.id} />
+          <div key={`slide-${product.id}`} className="flex-nowrap">
+            <ProductCard
+              product={product}
+              key={product.id}
+              className="flex flex-col"
+            />
           </div>
         ))}
       </Slider>
       <div
         className="
-      flex justify-center border-4 dark:border-contrast bg-gradient dark:bg-blue-green
-      border-primary rounded-full p-2 mt-12 space-x-12"
+        flex justify-center border-4 dark:border-contrast bg-gradient dark:bg-blue-green
+        border-primary rounded-full p-2 mt-12 space-x-12"
       >
-        <button
+        <animated.button
           className="
           border-2 border-primary dark:border-contrast bg-contrast dark:bg-primary 
           rounded-full p-2 text-primary dark:text-contrast text-heading"
           onClick={() => sliderRef.current?.slickPrev()}
           aria-label="Previous Product"
+          style={{
+            transform: prevProps.scale.to((scale) => `scale(${scale})`),
+          }}
+          onMouseEnter={() => setPrev({scale: 1.1})}
+          onMouseLeave={() => setPrev({scale: 1})}
         >
           <FaArrowLeft />
-        </button>
-        <button
+        </animated.button>
+        <animated.button
           className="
           border-2 border-primary dark:border-contrast bg-contrast dark:bg-primary 
           rounded-full p-2 text-primary dark:text-contrast text-heading"
           onClick={() => sliderRef.current?.slickNext()}
           aria-label="Next Product"
+          style={{
+            transform: nextProps.scale.to((scale) => `scale(${scale})`),
+          }}
+          onMouseEnter={() => setNext({scale: 1.1})}
+          onMouseLeave={() => setNext({scale: 1})}
         >
           <FaArrowRight />
-        </button>
+        </animated.button>
       </div>
     </div>
   );
