@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import {useSpring, animated} from 'react-spring';
 import type {ShopifyAnalyticsProduct} from '@shopify/hydrogen';
 import {flattenConnection, Image, Money, useMoney} from '@shopify/hydrogen';
 import type {MoneyV2, Product} from '@shopify/hydrogen/storefront-api-types';
@@ -23,6 +24,11 @@ export function ProductCard({
   onClick?: () => void;
   quickAdd?: boolean;
 }) {
+  const [cardProps, setCard] = useSpring(() => ({
+    scale: 1,
+    boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)',
+  }));
+
   let cardLabel;
 
   const cardProduct: Product = product?.variants
@@ -52,16 +58,29 @@ export function ProductCard({
     price: firstVariant.price.amount,
     quantity: 1,
   };
-
   return (
-    <div className="flex flex-col gap-2">
+    <animated.div
+      className="
+      flex flex-col justify-between p-2 my-4 mx-2 border-2 border-primary dark:border-contrast 
+      rounded-md bg-lilac/50"
+      style={{
+        transform: cardProps.scale.to((scale) => `scale(${scale})`),
+        boxShadow: cardProps.boxShadow.to((bs) => bs),
+      }}
+      onMouseEnter={() =>
+        setCard({scale: 1.05, boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.1)'})
+      }
+      onMouseLeave={() =>
+        setCard({scale: 1, boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)'})
+      }
+    >
       <Link
         onClick={onClick}
         to={`/products/${product.handle}`}
         prefetch="intent"
       >
-        <div className={clsx('grid gap-4', className)}>
-          <div className="card-image aspect-[1/1] bg-primary/5">
+        <div className={clsx('flex flex-col gap-2', className)}>
+          <div className="relative card-image aspect-[1/1] ">
             {image && (
               <Image
                 className="object-cover w-full fadeIn"
@@ -72,27 +91,30 @@ export function ProductCard({
                 loading={loading}
               />
             )}
-            <Text
-              as="label"
-              size="fine"
-              className="absolute top-0 right-0 m-4 text-right text-notice"
-            >
-              {cardLabel}
-            </Text>
+            {cardLabel && (
+              <Text
+                className="absolute top-2 right-2 rounded-2xl bg-blue-iris text-contrast py-1 px-3"
+                as="h3"
+              >
+                {cardLabel}
+              </Text>
+            )}
           </div>
-          <div className="grid gap-1">
-            <Text
-              className="w-full overflow-hidden whitespace-nowrap text-ellipsis "
-              as="h3"
-            >
-              {product.title}
-            </Text>
-            <div className="flex gap-4">
-              <Text className="flex gap-4">
+          <div className="flex-grow m-2">
+            <div className="min-h-28 overflow-hidden">
+              <Text
+                className="w-full overflow-hidden text-ellipsis"
+                size="lead"
+              >
+                {product.title}
+              </Text>
+            </div>
+            <div className="mt-auto">
+              <Text className="flex gap-x-8 text-lead font-semibold">
                 <Money withoutTrailingZeros data={price!} />
                 {isDiscounted(price as MoneyV2, compareAtPrice as MoneyV2) && (
                   <CompareAtPrice
-                    className={'opacity-50'}
+                    className="text-burnt-orange/60 dark:text-contrast"
                     data={compareAtPrice as MoneyV2}
                   />
                 )}
@@ -128,7 +150,7 @@ export function ProductCard({
           </Text>
         </Button>
       )}
-    </div>
+    </animated.div>
   );
 }
 

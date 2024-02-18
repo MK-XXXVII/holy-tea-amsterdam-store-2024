@@ -6,6 +6,7 @@ import type {
   Video as MediaVideo,
 } from '@shopify/hydrogen/storefront-api-types';
 import Marquee from 'react-fast-marquee';
+import {useSpring, animated} from 'react-spring';
 
 import type {CollectionContentFragment} from 'storefrontapi.generated';
 import {Heading, Text, Link} from '~/components';
@@ -30,6 +31,7 @@ export function Hero({
   spreadSecondary,
   top,
 }: HeroProps) {
+  const [ctaProps, setCta] = useSpring(() => ({scale: 0.8}));
   return (
     <Link to={`/collections/${handle}`}>
       <section
@@ -98,18 +100,23 @@ export function Hero({
           <hr className="my-4 h-0.5 border-t-0" />
           {cta?.value && (
             <div className="px-4">
-              <button
+              <animated.button
                 type="button"
                 className="
-                w-full bg-primary text-contrast hover:text-contrast border-4 
-                border-contrast hover:bg-blue-green focus:ring-4 focus:outline-none 
-                focus:ring-blue-green rounded-full px-8 py-6 text-center mb-2 
-                dark:text-contrast dark:hover:bg-blue-green dark:focus:ring-lilac
-                transition-colors duration-200"
+      w-full bg-primary text-contrast hover:text-contrast border-4 
+      border-contrast hover:bg-blue-green focus:ring-4 focus:outline-none 
+      focus:ring-blue-green rounded-full px-8 py-6 text-center mb-2 
+      dark:text-contrast dark:hover:bg-blue-green dark:focus:ring-lilac
+      transition-colors duration-200"
                 aria-label="{cta.value}"
+                style={{
+                  transform: ctaProps.scale.to((scale) => `scale(${scale})`),
+                }}
+                onMouseEnter={() => setCta({scale: 1})}
+                onMouseLeave={() => setCta({scale: 0.8})}
               >
                 <Text size="lead">{cta.value}</Text>
-              </button>
+              </animated.button>
             </div>
           )}
         </div>
