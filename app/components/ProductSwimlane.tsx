@@ -73,7 +73,7 @@ export function ProductSwimlane({
 
   return (
     <div className="slider-container py-8 gap-12">
-      <div className="max-w-5xl">
+      <div className="max-w-4xl px-8">
         {title && (
           <Heading size="display" className="pb-4">
             {title}
