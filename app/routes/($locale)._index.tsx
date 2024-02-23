@@ -24,7 +24,11 @@ export async function loader({params, context}: LoaderFunctionArgs) {
   }
 
   const {shop, hero} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
-    variables: {handle: 'bundles', country, language},
+    variables: {
+      handle: 'bundles',
+      country,
+      language,
+    },
   });
 
   const seo = seoPayload.home();
@@ -176,12 +180,6 @@ export const HOMEPAGE_FEATURED_PRODUCTS_QUERY = `#graphql
         value
       }
       featuredProductsTagline: metafield(namespace: "custom", key: "featured_products_tagline") {
-        value
-      }
-      ingredientsRich: metafield(namespace: "custom", key: "ingredients_rich") {
-        value
-      }
-      brewingInstructions: metafield(namespace: "custom", key: "brewing_instructions") {
         value
       }
       products(first: 8) {

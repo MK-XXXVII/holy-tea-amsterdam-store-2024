@@ -23,7 +23,7 @@ import {
   IconCaret,
   IconCheck,
   ProductGallery,
-  ProductSwimlane,
+  RecommendedProducts,
   Section,
   Skeleton,
   Text,
@@ -36,7 +36,11 @@ import {seoPayload} from '~/lib/seo.server';
 import type {Storefront, RichTextNode} from '~/lib/type';
 import {convertRichTextToHTML} from '~/lib/richTextUtils';
 import {routeHeaders} from '~/data/cache';
-import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
+import {
+  PRODUCT_QUERY,
+  RECOMMENDED_PRODUCTS_QUERY,
+  VARIANTS_QUERY,
+} from '~/data/productQueries';
 
 export const headers = routeHeaders;
 
@@ -152,7 +156,6 @@ export default function Product() {
       const richText = JSON.parse(metafieldValue) as RichTextNode; // Asserting the type
       return convertRichTextToHTML(richText);
     } catch (error) {
-      console.error('Error parsing metafield value:', error);
       return ''; // Fallback to an empty string in case of parsing error
     }
   };
@@ -170,13 +173,13 @@ export default function Product() {
 
   return (
     <>
-      <Section className="px-0 md:px-8 lg:px-12">
-        <div className="grid items-start md:gap-6 lg:gap-20 md:grid-cols-2 lg:grid-cols-3">
+      <Section className="px-0 md:px-4 lg:px-8">
+        <div className="grid items-start md:gap-6 lg:gap-12 md:grid-cols-2 lg:grid-cols-3 h-auto">
           <ProductGallery
             media={media.nodes}
             className="w-full lg:col-span-2"
           />
-          <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav hiddenScroll md:overflow-y-scroll">
+          <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:pt-nav hiddenScroll md:overflow-y-scroll">
             <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-sm md:px-0">
               <div className="grid gap-2">
                 <Heading as="h1" className="whitespace-normal">
@@ -248,7 +251,10 @@ export default function Product() {
           resolve={recommended}
         >
           {(products) => (
-            <ProductSwimlane title="Related Products" products={products} />
+            <RecommendedProducts
+              title="You May Also Like"
+              products={products}
+            />
           )}
         </Await>
       </Suspense>
@@ -453,7 +459,7 @@ function ProductDetail({
       as="div"
       className="
       grid w-full gap-2 border-2 border-primary dark:border-contrast
-      bg-blue-green dark:bg-lilac text-primary p-3 rounded-md 
+      bg-blue-green dark:bg-primary text-primary dark:text-contrast p-3 rounded-md 
       transition-shadow duration-200 hover:shadow-sm focus-within:shadow-sm 
       focus-within:border-primary/80 focus-within:outline-none 
       focus-within:ring-2 focus-within:ring-lilac/80 dark:focus-within:ring-blue-green/80
@@ -485,7 +491,7 @@ function ProductDetail({
             }}
           >
             <div
-              className="prose text-primary"
+              className="prose-headings:text-lead prose-headings:py-2 text-primary dark:text-contrast"
               dangerouslySetInnerHTML={{__html: content}}
             />
             {learnMore && (
@@ -504,142 +510,6 @@ function ProductDetail({
     </Disclosure>
   );
 }
-
-const PRODUCT_VARIANT_FRAGMENT = `#graphql
-  fragment ProductVariantFragment on ProductVariant {
-    id
-    availableForSale
-    selectedOptions {
-      name
-      value
-    }
-    image {
-      id
-      url
-      altText
-      width
-      height
-    }
-    price {
-      amount
-      currencyCode
-    }
-    compareAtPrice {
-      amount
-      currencyCode
-    }
-    sku
-    title
-    unitPrice {
-      amount
-      currencyCode
-    }
-    product {
-      title
-      handle
-    }
-  }
-`;
-
-const PRODUCT_QUERY = `#graphql
-  query Product(
-    $country: CountryCode
-    $language: LanguageCode
-    $handle: String!
-    $selectedOptions: [SelectedOptionInput!]!
-  ) @inContext(country: $country, language: $language) {
-    product(handle: $handle) {
-      id
-      title
-      vendor
-      handle
-      descriptionHtml
-      description
-      options {
-        name
-        values
-      }
-      selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
-        ...ProductVariantFragment
-      }
-      media(first: 7) {
-        nodes {
-          ...Media
-        }
-      }
-      variants(first: 1) {
-        nodes {
-          ...ProductVariantFragment
-        }
-      }
-      metafield(namespace: "custom", key: "ingredients_rich") {
-        value
-      }
-      secondMetafield: metafield(namespace: "custom", key: "nutritionalvaluerichtext") {
-        value
-      }
-      thirdMetafield: metafield(namespace: "custom", key: "guiderichtext") {
-        value
-      }
-      seo {
-        description
-        title
-      }
-    }
-    shop {
-      name
-      primaryDomain {
-        url
-      }
-      shippingPolicy {
-        body
-        handle
-      }
-      refundPolicy {
-        body
-        handle
-      }
-    }
-  }
-  ${MEDIA_FRAGMENT}
-  ${PRODUCT_VARIANT_FRAGMENT}
-` as const;
-
-const VARIANTS_QUERY = `#graphql
-  query variants(
-    $country: CountryCode
-    $language: LanguageCode
-    $handle: String!
-  ) @inContext(country: $country, language: $language) {
-    product(handle: $handle) {
-      variants(first: 250) {
-        nodes {
-          ...ProductVariantFragment
-        }
-      }
-    }
-  }
-  ${PRODUCT_VARIANT_FRAGMENT}
-` as const;
-
-const RECOMMENDED_PRODUCTS_QUERY = `#graphql
-  query productRecommendations(
-    $productId: ID!
-    $count: Int
-    $country: CountryCode
-    $language: LanguageCode
-  ) @inContext(country: $country, language: $language) {
-    recommended: productRecommendations(productId: $productId) {
-      ...ProductCard
-    }
-    additional: products(first: $count, sortKey: BEST_SELLING) {
-      nodes {
-        ...ProductCard
-      }
-    }
-  }
-  ${PRODUCT_CARD_FRAGMENT}
-` as const;
 
 async function getRecommendedProducts(
   storefront: Storefront,

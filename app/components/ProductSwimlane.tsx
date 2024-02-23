@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Slider from 'react-slick';
 import {useSpring, animated} from 'react-spring';
-import {FaArrowRight, FaArrowLeft} from 'react-icons/fa';
+import {FaArrowRight, FaArrowLeft, FaSpinner} from 'react-icons/fa';
 
 import type {HomepageFeaturedProductsQuery} from 'storefrontapi.generated';
 import {ProductCard, Heading, Text} from '~/components';
@@ -17,9 +17,26 @@ export function ProductSwimlane({
   title,
   tagline,
 }: ProductSwimlaneProps) {
+  const [isLoading, setIsLoading] = useState(true);
   const sliderRef = React.useRef<Slider>(null);
   const [prevProps, setPrev] = useSpring(() => ({scale: 1}));
   const [nextProps, setNext] = useSpring(() => ({scale: 1}));
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 100); // 0.1 second delay
+
+    return () => clearTimeout(timer); // Clean up on component unmount
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <FaSpinner className="animate-spin h-16 w-16" />
+      </div>
+    );
+  }
 
   const settings = {
     className: 'center',
@@ -43,14 +60,14 @@ export function ProductSwimlane({
       {
         breakpoint: 1280, // tailwindcss default xl breakpoint
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 3,
           infinite: true,
         },
       },
       {
         breakpoint: 1024, // tailwindcss default lg breakpoint
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2,
           infinite: true,
         },
       },
@@ -72,8 +89,8 @@ export function ProductSwimlane({
   };
 
   return (
-    <div className="slider-container py-8 gap-12">
-      <div className="max-w-5xl">
+    <div className="slider-container py-8">
+      <div className="max-w-4xl px-8">
         {title && (
           <Heading size="display" className="pb-4">
             {title}
@@ -85,21 +102,17 @@ export function ProductSwimlane({
           </Text>
         )}{' '}
       </div>
-      <Slider ref={sliderRef} {...settings} className="top-8">
+      <Slider ref={sliderRef} {...settings}>
         {collectionByHandle?.products?.nodes.map((product) => (
           <div key={`slide-${product.id}`} className="flex-nowrap">
-            <ProductCard
-              product={product}
-              key={product.id}
-              className="flex flex-col"
-            />
+            <ProductCard product={product} key={product.id} />
           </div>
         ))}
       </Slider>
       <div
         className="
         flex justify-center border-4 dark:border-contrast bg-gradient dark:bg-blue-green
-        border-primary rounded-full p-2 mt-12 space-x-12"
+        border-primary rounded-full p-2 mx-4 mt-8 space-x-12"
       >
         <animated.button
           className="

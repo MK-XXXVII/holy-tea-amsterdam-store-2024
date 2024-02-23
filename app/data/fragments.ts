@@ -44,6 +44,18 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
     publishedAt
     handle
     vendor
+      metafield(namespace: "custom", key: "ingredients_rich") {
+        value
+      }
+      metafieldTitle:metafield(namespace: "custom", key: "ingredients_rich_title") {
+        value
+      }
+      secondMetafield: metafield(namespace: "custom", key: "nutritionalvaluerichtext") {
+        value
+      }
+      thirdMetafield: metafield(namespace: "custom", key: "guiderichtext") {
+        value
+      }
     variants(first: 1) {
       nodes {
         id
