@@ -89,10 +89,17 @@ shop-pay-button {
   }
 
   .prose {
+    strong {
+      @apply font-bold text-primary dark:text-contrast;
+    }
     h1,
-    h2,
+    h2 {
+      @apply text-lead text-primary dark:text-contrast;
+    },
     h3,
-    h4,
+    h4 {
+      @apply text-copy text-primary dark:text-contrast;
+    },
     h5,
     h6 {
       &:first-child {

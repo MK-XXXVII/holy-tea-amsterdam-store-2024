@@ -491,7 +491,7 @@ function ProductDetail({
             }}
           >
             <div
-              className="prose-headings:text-lead prose-headings:py-2 text-primary dark:text-contrast"
+              className="prose text-primary dark:text-contrast"
               dangerouslySetInnerHTML={{__html: content}}
             />
             {learnMore && (

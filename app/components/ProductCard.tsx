@@ -216,7 +216,7 @@ export function ProductCard({
                       <div className="mt-2">
                         <HTMLText
                           size="copy"
-                          className="prose-headings:text-lead prose-headings:py-2 text-primary dark:text-contrast"
+                          className="prose text-primary dark:text-contrast"
                           content={metafieldHtml}
                         />
                       </div>
