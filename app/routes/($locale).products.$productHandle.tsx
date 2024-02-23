@@ -459,7 +459,7 @@ function ProductDetail({
       as="div"
       className="
       grid w-full gap-2 border-2 border-primary dark:border-contrast
-      bg-blue-green dark:bg-lilac text-primary p-3 rounded-md 
+      bg-blue-green dark:bg-primary text-primary dark:text-contrast p-3 rounded-md 
       transition-shadow duration-200 hover:shadow-sm focus-within:shadow-sm 
       focus-within:border-primary/80 focus-within:outline-none 
       focus-within:ring-2 focus-within:ring-lilac/80 dark:focus-within:ring-blue-green/80
@@ -491,7 +491,7 @@ function ProductDetail({
             }}
           >
             <div
-              className="prose text-primary"
+              className="prose-headings:text-lead prose-headings:py-2 text-primary dark:text-contrast"
               dangerouslySetInnerHTML={{__html: content}}
             />
             {learnMore && (

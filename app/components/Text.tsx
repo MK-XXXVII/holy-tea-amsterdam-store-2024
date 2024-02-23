@@ -56,6 +56,22 @@ export function Text({
   );
 }
 
+export function HTMLText({
+  content,
+  className,
+  size = 'copy',
+}: {
+  content: string;
+  className?: string;
+  size?: 'lead' | 'copy' | 'fine';
+}) {
+  return (
+    <Text size={size} className={className}>
+      <span dangerouslySetInnerHTML={{__html: content}} />
+    </Text>
+  );
+}
+
 export function Heading({
   as: Component = 'h2',
   children,
