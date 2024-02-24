@@ -1,8 +1,3 @@
-import React from 'react';
-import Slider from 'react-slick';
-import {useSpring, animated} from 'react-spring';
-import {FaArrowRight, FaArrowLeft} from 'react-icons/fa';
-
 import type {HomepageFeaturedProductsQuery} from 'storefrontapi.generated';
 import {ProductCard, Section} from '~/components';
 
@@ -24,7 +19,7 @@ export function RecommendedProducts({
 }: RecommendedProductsProps) {
   return (
     <Section heading={title} padding="y" {...props}>
-      <div className="swimlane md:pb-8">
+      <div className="swimlane md:pb-8 scrollbar-hide">
         {products.nodes.map((product) => (
           <ProductCard
             product={product}

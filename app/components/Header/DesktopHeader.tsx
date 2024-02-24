@@ -31,7 +31,7 @@ export function DesktopHeader({
       role="banner"
       className={`${
         isHome
-          ? 'bg-lilac/60 dark:bg-blue-green/60 text-primary shadow-darkHeader'
+          ? 'bg-lilac/80 dark:bg-blue-green/80 text-primary shadow-darkHeader'
           : 'bg-blue-green/60 text-primary dark:bg-lilac/60 shadow-lightHeader'
       } ${
         !isHome && y > 50 && 'shadow-lightHeader'
