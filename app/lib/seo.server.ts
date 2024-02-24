@@ -31,7 +31,7 @@ function root({
 }): SeoConfig<Organization> {
   return {
     title: shop?.name,
-    titleTemplate: '%s | Hydrogen Demo Store',
+    titleTemplate: '%s | Holy Tea Amsterdam',
     description: truncate(shop?.description ?? ''),
     handle: '@shopify',
     url,
@@ -64,8 +64,9 @@ function root({
 function home(): SeoConfig<WebPage> {
   return {
     title: 'Home',
-    titleTemplate: '%s | Hydrogen Demo Store',
-    description: 'The best place to buy snowboarding products',
+    titleTemplate: '%s | Holy Tea Amsterdam',
+    description:
+      'A Tea online store from Amsterdam with a wide variety of Mediterranean, Black, Green, Wellness, Herbal, Fruit, Rooibos, White and Organic Hand-Blended Tea Blends. ',
     robots: {
       noIndex: false,
       noFollow: false,

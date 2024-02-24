@@ -143,7 +143,7 @@ export default function Product() {
   const {
     media,
     title,
-    vendor,
+    // vendor,
     descriptionHtml,
     metafield,
     secondMetafield,
@@ -180,14 +180,14 @@ export default function Product() {
             className="w-full lg:col-span-2"
           />
           <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:pt-nav hiddenScroll md:overflow-y-scroll">
-            <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-sm md:px-0">
+            <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-lg md:px-0">
               <div className="grid gap-2">
                 <Heading as="h1" className="whitespace-normal">
                   {title}
                 </Heading>
-                {vendor && (
+                {/* {vendor && (
                   <Text className={'opacity-50 font-medium'}>{vendor}</Text>
-                )}
+                )} */}
               </div>
               <Suspense fallback={<ProductForm variants={[]} />}>
                 <Await
@@ -303,7 +303,7 @@ export function ProductForm({
                 key={option.name}
                 className="flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0"
               >
-                <Heading as="legend" size="lead" className="min-w-[4rem]">
+                <Heading as="legend" size="copy" className="min-w-[4rem]">
                   {option.name}
                 </Heading>
                 <div className="flex flex-wrap items-baseline gap-4">
@@ -373,8 +373,10 @@ export function ProductForm({
                         prefetch="intent"
                         replace
                         className={clsx(
-                          'leading-none py-1 border-b-[1.5px] cursor-pointer transition-all duration-200',
-                          isActive ? 'border-primary/50' : 'border-primary/0',
+                          'leading-none py-2 px-4 rounded-3xl border-2 border-primary dark:border-contrast cursor-pointer transition-all duration-200 font-semibold',
+                          isActive
+                            ? 'bg-lilac dark:bg-blue-green dark:text-primary'
+                            : 'bg-blue-green/10',
                           isAvailable ? 'opacity-100' : 'opacity-50',
                         )}
                       >
@@ -522,7 +524,8 @@ async function getRecommendedProducts(
   invariant(products, 'No data returned from Shopify API');
 
   const mergedProducts = (products.recommended ?? [])
-    .concat(products.additional.nodes)
+    // additional products
+    // .concat(products.additional.nodes)
     .filter(
       (value, index, array) =>
         array.findIndex((value2) => value2.id === value.id) === index,

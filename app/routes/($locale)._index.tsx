@@ -75,7 +75,6 @@ export default function Homepage() {
       {primaryHero && (
         <Hero {...primaryHero} height="full" top loading="eager" />
       )}
-
       {featuredProducts && (
         <Suspense>
           <Await resolve={featuredProducts}>
@@ -97,7 +96,7 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
-      {featuredCollections && (
+      {/* {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
             {({collections}) => {
@@ -111,7 +110,7 @@ export default function Homepage() {
             }}
           </Await>
         </Suspense>
-      )}
+      )} */}
     </>
   );
 }

@@ -133,7 +133,7 @@ export function ProductCard({
             )}
             {cardLabel && (
               <Text
-                className="absolute top-2 right-2 bg-blue-iris text-contrast py-1 px-3 rounded-lg text-sm font-semibold"
+                className="absolute top-2 right-2 bg-blue-iris text-contrast py-1 px-3 rounded-2xl text-copy font-semibold"
                 as="h3"
               >
                 {cardLabel}
@@ -225,7 +225,7 @@ export function ProductCard({
                         <button
                           type="button"
                           className="
-                          inline-flex justify-center rounded-md border border-transparent 
+                          inline-flex justify-center rounded-3xl border border-transparent 
                           bg-blue-iris px-4 py-2 text-sm font-medium text-contrast 
                           hover:bg-blue-iris/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-iris/50 
                           focus-visible:ring-offset-2"
