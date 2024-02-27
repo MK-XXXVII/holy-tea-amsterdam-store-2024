@@ -38,7 +38,7 @@ export const countries: Localizations = {
     currency: 'EUR',
   },
   '/sv-nl': {
-    label: 'Español (EUR €)',
+    label: 'Svenska (EUR €)',
     language: 'SV',
     country: 'NL',
     currency: 'EUR',

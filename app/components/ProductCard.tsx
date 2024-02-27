@@ -79,9 +79,6 @@ export function ProductCard({
   const metafieldHtml = product.metafield
     ? parseAndConvertRichText(product.metafield.value)
     : '';
-  const thirdMetafieldHtml = product.thirdMetafield
-    ? parseAndConvertRichText(product.thirdMetafield.value)
-    : '';
 
   const productAnalytics: ShopifyAnalyticsProduct = {
     productGid: product.id,
@@ -251,7 +248,7 @@ export function ProductCard({
             },
           ]}
           variant="secondary"
-          className="mt-2 bg-green-500 text-white hover:bg-green-600 transition-colors duration-200"
+          className="my-2 bg-primary text-contrast py-2 rounded-3xl hover:bg-green-600 transition-colors duration-200"
           analytics={{
             products: [productAnalytics],
             totalValue: parseFloat(productAnalytics.price),
