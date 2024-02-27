@@ -98,7 +98,7 @@ shop-pay-button {
     },
     h3,
     h4 {
-      @apply text-copy text-primary dark:text-contrast;
+      @apply text-lead text-primary dark:text-contrast;
     },
     h5,
     h6 {

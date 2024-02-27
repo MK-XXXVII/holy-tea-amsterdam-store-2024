@@ -38,7 +38,19 @@ export const PRODUCT_QUERY = `#graphql
       secondMetafield: metafield(namespace: "custom", key: "nutritionalvaluerichtext") {
         value
       }
-      thirdMetafield: metafield(namespace: "custom", key: "guiderichtext") {
+      thirdMetafield: metafield(namespace: "custom", key: "brewing_instructions") {
+        value
+      }
+      ingredientsTitle: metafield(namespace: "custom", key: "ingredients_rich_title") {
+        value
+      }
+      brewingGuideTitle: metafield(namespace: "custom", key: "tea_brewing_guide_title") {
+        value
+      }
+      shippingTitle: metafield(namespace: "custom", key: "shipping") {
+        value
+      }
+      returnsTitle: metafield(namespace: "custom", key: "returns_title") {
         value
       }
       seo {
@@ -52,10 +64,12 @@ export const PRODUCT_QUERY = `#graphql
         url
       }
       shippingPolicy {
+        title
         body
         handle
       }
       refundPolicy {
+        title
         body
         handle
       }

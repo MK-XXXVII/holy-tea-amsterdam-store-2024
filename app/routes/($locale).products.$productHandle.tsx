@@ -26,6 +26,7 @@ import {
   RecommendedProducts,
   Section,
   Skeleton,
+  HTMLText,
   Text,
   Link,
   AddToCartButton,
@@ -148,6 +149,8 @@ export default function Product() {
     metafield,
     secondMetafield,
     thirdMetafield,
+    ingredientsTitle,
+    brewingGuideTitle,
   } = product;
   const {shippingPolicy, refundPolicy} = shop;
 
@@ -170,17 +173,20 @@ export default function Product() {
   const thirdMetafieldHtml = thirdMetafield
     ? parseAndConvertRichText(thirdMetafield.value)
     : '';
+  const ingredientsTitleValue = ingredientsTitle?.value || 'Ingredients';
+  const brewingGuideTitleValue =
+    brewingGuideTitle?.value || 'Tea Brewing Guide';
 
   return (
     <>
-      <Section className="px-0 md:px-4 lg:px-8">
-        <div className="grid items-start md:gap-6 lg:gap-12 md:grid-cols-2 lg:grid-cols-3 h-auto">
+      <Section className="px-4 md:px-8 lg:px-16 xl:px-24 2xl:px-40">
+        <div className="grid items-start md:gap-4 lg:gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 h-auto">
           <ProductGallery
             media={media.nodes}
-            className="w-full lg:col-span-2"
+            className="w-full xl:col-span-2"
           />
           <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:pt-nav hiddenScroll md:overflow-y-scroll">
-            <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-lg md:px-0">
+            <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-xl md:px-0">
               <div className="grid gap-2">
                 <Heading as="h1" className="whitespace-normal">
                   {title}
@@ -202,15 +208,9 @@ export default function Product() {
                 </Await>
               </Suspense>
               <div className="grid gap-4 py-4">
-                {descriptionHtml && (
-                  <ProductDetail
-                    title="Product Details"
-                    content={descriptionHtml}
-                  />
-                )}
                 {metafield && (
                   <ProductDetail
-                    title="Ingredients"
+                    title={ingredientsTitleValue} // Use the value from the query as the title
                     content={metafieldHtml} // Use the excerpt as content
                   />
                 )}
@@ -222,28 +222,27 @@ export default function Product() {
                 )}
                 {thirdMetafield && (
                   <ProductDetail
-                    title="Tea Brewing Guide"
+                    title={brewingGuideTitleValue} // Use the value from the query as the ti
                     content={thirdMetafieldHtml} // Use the excerpt as content
                   />
                 )}
                 {shippingPolicy?.body && (
                   <ProductDetail
-                    title="Shipping"
+                    title={shippingPolicy.title}
                     content={getExcerpt(shippingPolicy.body)}
                     learnMore={`/policies/${shippingPolicy.handle}`}
-                  />
-                )}
-                {refundPolicy?.body && (
-                  <ProductDetail
-                    title="Returns"
-                    content={getExcerpt(refundPolicy.body)}
-                    learnMore={`/policies/${refundPolicy.handle}`}
                   />
                 )}
               </div>
             </section>
           </div>
         </div>
+        {descriptionHtml && (
+          <div
+            dangerouslySetInnerHTML={{__html: descriptionHtml}}
+            className="prose text-primary dark:text-contrast mt-8 w-full max-w-7xl px-8 md:font-light md:text-lead"
+          />
+        )}{' '}
       </Section>
       <Suspense fallback={<Skeleton className="h-32" />}>
         <Await
