@@ -31,7 +31,7 @@ export function FeaturedCollections({
                       alt={`Image of ${collection.title}`}
                       data={collection.image}
                       sizes="(max-width: 32em) 100vw, 33vw"
-                      aspectRatio="4/3"
+                      aspectRatio="1/1"
                     />
                   )}
                 </div>

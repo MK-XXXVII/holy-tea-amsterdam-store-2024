@@ -440,7 +440,7 @@ export function CartEmpty({
 
   const container = {
     drawer: clsx([
-      'content-start gap-4 px-6 pb-4 pt-8 transition overflow-y-scroll md:gap-12 md:px-12 h-screen-no-nav md:pb-12',
+      'content-start gap-4 px-2 pb-4 pt-8 transition overflow-y-scroll md:gap-12 md:px-4 h-screen-no-nav md:pb-12',
       y > 0 ? 'border-t' : '',
     ]),
     page: clsx([

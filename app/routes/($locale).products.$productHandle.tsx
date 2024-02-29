@@ -151,6 +151,7 @@ export default function Product() {
     thirdMetafield,
     ingredientsTitle,
     brewingGuideTitle,
+    productDescriptionTitle,
   } = product;
   const {shippingPolicy, refundPolicy} = shop;
 
@@ -176,6 +177,8 @@ export default function Product() {
   const ingredientsTitleValue = ingredientsTitle?.value || 'Ingredients';
   const brewingGuideTitleValue =
     brewingGuideTitle?.value || 'Tea Brewing Guide';
+  const productDescriptionTitleValue =
+    productDescriptionTitle?.value || 'Description';
 
   return (
     <>
@@ -238,10 +241,15 @@ export default function Product() {
           </div>
         </div>
         {descriptionHtml && (
-          <div
-            dangerouslySetInnerHTML={{__html: descriptionHtml}}
-            className="prose text-primary dark:text-contrast mt-8 w-full max-w-7xl px-8 md:font-light md:text-lead"
-          />
+          <>
+            <Heading as="legend" size="heading" className="mt-8 px-8">
+              {productDescriptionTitleValue}
+            </Heading>
+            <div
+              dangerouslySetInnerHTML={{__html: descriptionHtml}}
+              className="prose text-primary dark:text-contrast w-full max-w-7xl px-8 md:font-light md:text-lead"
+            />
+          </>
         )}{' '}
       </Section>
       <Suspense fallback={<Skeleton className="h-32" />}>
@@ -249,12 +257,7 @@ export default function Product() {
           errorElement="There was a problem loading related products"
           resolve={recommended}
         >
-          {(products) => (
-            <RecommendedProducts
-              title="You May Also Like"
-              products={products}
-            />
-          )}
+          {(products) => <RecommendedProducts products={products} />}
         </Await>
       </Suspense>
     </>
